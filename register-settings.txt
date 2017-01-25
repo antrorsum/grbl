@@ -15,7 +15,7 @@
 0x1c 0b00000000   spdCmdBuffer[7:0]                                                                                                   
 0x1e 0b00000000   Res(2) Lock5 Lock4 Fault3 Lock2 Lock1 Lock0    
 0x20 0b00101001   DoubleFreq Rm[6:0](Resistance motor 0.348)                                                                                  
-0x21 0b10011101   AdjMode(halfcycle adjustable) Kt[6:0] (23.8mV/Hz=1.428V/RPM)                                                                                       
+0x21 0b10011101   AdjMode(halfcycle adjustable) Kt[6:0] (23.8mV/Hz=1.428V/RPM) 22*60/1000                                                                                       
 0x22 0b00111010   CtrlAdvMd (fix time) TCtrlAdv[6:0] (tSETTING = 2.5 µs × {TCtrlAdv[3:0] < TCtrlAdv[6:4]})                                                                                         
 0x23 0b00000000   ISDThr[1:0] IPDAdvcAgl[1:0] ISDen RvsDrEn RvsDrThr[1:0]                                                                                                  
 0x24 0b10011000   OpenLCurr[1:0] OpLCurrRt[2:0] BrkDoneThr[2:0]                                                                                           
@@ -40,10 +40,10 @@ i2c.writeto_mem(0x52, 0x3, b'\x10')
 6. Check value
 hex(ord(i2c.readfrom_mem(0x52, 0x2b, 1)))
 
-i2c.start()
+from machine import Pin, I2C                                                                                
+i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
 i2c.writeto_mem(0x52, 0x03, b'\x40')
 i2c.writeto_mem(0x52, 0x2b, b'\x2e')
 i2c.writeto_mem(0x52, 0x02, b'\xb6')
 i2c.writeto_mem(0x52, 0x03, b'\x10')
-i2c.stop()
 hex(ord(i2c.readfrom_mem(0x52, 0x2b, 1)))
