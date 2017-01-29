@@ -80,6 +80,14 @@
   #error "SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED may only be used with USE_SPINDLE_DIR_AS_ENABLE_PIN enabled"
 #endif
 
+#if defined(INVERT_VARIABLE_SPINDLE_PWM) && !defined(VARIABLE_SPINDLE)
+  #error "INVERT_VARIABLE_SPINDLE_PWM may only be used with VARIABLE_SPINDLE enabled"
+#endif
+
+#if defined(INVERT_VARIABLE_SPINDLE_PWM) && !defined(CPU_MAP_ATMEGA328P)
+  #error "INVERT_VARIABLE_SPINDLE_PWM may only be used with a 328p processor"
+#endif
+
 #if defined(PARKING_ENABLE)
   #if defined(HOMING_FORCE_SET_ORIGIN)
     #error "HOMING_FORCE_SET_ORIGIN is not supported with PARKING_ENABLE at this time."
